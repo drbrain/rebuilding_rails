@@ -1,6 +1,4 @@
-require "minitest/autorun"
-require "rack/test"
-require "rulers"
+require_relative "helper"
 
 class TestRulersApplication < Minitest::Test
   include Rack::Test::Methods
@@ -15,10 +13,21 @@ class TestRulersApplication < Minitest::Test
   end
 
   def test_call
-    get "/"
+    get "/rulerstest/action"
 
     assert_predicate last_response, :ok?
 
-    assert_match "Hello World", last_response.body
+    assert_match "it worked", last_response.body
+  end
+
+  def test_controller_and_action
+    env = {
+      "PATH_INFO" => "/rulerstest/action",
+    }
+
+    controller, action = @app.get_controller_and_action env
+
+    assert_instance_of RulerstestController, controller
+    assert_equal "action", action
   end
 end

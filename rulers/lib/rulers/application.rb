@@ -1,11 +1,22 @@
 class Rulers::Application
   def call env
-    [200, { "Content-Type" => "text/html" }, [<<-HTML]]
-<!DOCTYPE html>
+    controller, action = get_controller_and_action env
 
-<title>Hello World</title>
+    body = controller.send action
 
-<p>Hello world from Ruby on Rulers
-    HTML
+    [200, { "Content-Type" => "text/html" }, [body]]
+  end
+
+  def get_controller_and_action env
+    path_info = env.fetch "PATH_INFO"
+    parts     = path_info.split "/", 4
+
+    _, name, action, = parts
+
+    controller_class = Object.const_get "#{name.capitalize}Controller"
+
+    controller = controller_class.new env
+
+    return controller, action
   end
 end

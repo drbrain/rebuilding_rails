@@ -3,3 +3,4 @@ class Rulers
 end
 
 require "rulers/application"
+require "rulers/controller"
