@@ -1,9 +1,3 @@
-run -> (env) {
-  [200, { "Content-Type" => "text/html" }, [<<-HTML]]
-<!DOCTYPE html>
+require_relative "config/application"
 
-<title>Hello World</title>
-
-<p>Hello world
-   HTML
-}
+run BestQuotes::Application.new
