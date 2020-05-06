@@ -1,7 +1,19 @@
 require "rulers"
 
 module BestQuotes
-  class Application < Rulers::Application
+end
+
+class BestQuotes::Application < Rulers::Application
+  def handle_error e
+    case e
+    when Rulers::NoSuchController then
+      case e.name
+      when "" then
+        return [302, { "Location" => "/quotes/a_quote" }, []]
+      end
+    end
+
+    super
   end
 end
 
