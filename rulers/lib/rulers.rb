@@ -4,3 +4,4 @@ end
 
 require "rulers/application"
 require "rulers/controller"
+require "rulers/errors"
