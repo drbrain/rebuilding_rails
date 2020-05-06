@@ -1,5 +1,9 @@
 class Rulers::Application
   def call env
+    if env["PATH_INFO"] == "/favicon.ico" then
+      return [404, {}, []]
+    end
+
     controller, action = get_controller_and_action env
 
     body = controller.send action

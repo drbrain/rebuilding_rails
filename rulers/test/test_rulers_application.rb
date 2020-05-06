@@ -20,6 +20,12 @@ class TestRulersApplication < Minitest::Test
     assert_match "it worked", last_response.body
   end
 
+  def test_call_favicon
+    get "/favicon.ico"
+
+    assert_equal 404, last_response.status
+  end
+
   def test_controller_and_action
     env = {
       "PATH_INFO" => "/rulerstest/action",
