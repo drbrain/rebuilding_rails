@@ -3,4 +3,3 @@ class Rulers
 end
 
 require "rulers/load_missing"
-require "rulers/errors"
