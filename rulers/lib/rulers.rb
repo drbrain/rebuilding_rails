@@ -3,10 +3,6 @@ require "pathname"
 class Rulers
   VERSION = "1.0"
 
-  class << self
-    attr_reader :app
-  end
-
   def self.app
     @app ||= new
   end
