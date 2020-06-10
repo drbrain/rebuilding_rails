@@ -13,7 +13,8 @@ Hoe.spec "rulers" do
 
   self.readme_file = "README.rdoc"
 
-  dependency "rack", "~> 2.0"
+  dependency "rack",   "~> 2.0"
+  dependency "erubis", "~> 2.7"
   dependency "rack-test", "~> 1.1", :development
 end
 
