@@ -55,7 +55,7 @@ class TestRulersApplication < Minitest::Test
 
     status, env, body = @app.handle_error e
 
-    assert_equal 500, e.status
+    assert_equal 500, status
     expected = { "Content-Type" => "text/html" }
     assert_equal expected, env
 
