@@ -10,10 +10,22 @@ class Rulers::Controller
 
   def initialize env
     @env = env
+    @controller_start = Process.clock_gettime Process::CLOCK_MONOTONIC
   end
 
   def controller_name
     self.class.to_underscore
+  end
+
+  def view_context
+    variables = {
+      controller_name:  controller_name,
+    }
+
+    context = Erubis::Context.new
+    context.update variables
+    context.update self
+    context
   end
 
   def render view, **locals
@@ -22,7 +34,10 @@ class Rulers::Controller
 
     template = template_file.read
 
+    context = view_context
+    context.update locals
+
     eruby = Erubis::Eruby.new template
-    eruby.result locals.merge env: @env
+    eruby.result context.to_hash
   end
 end

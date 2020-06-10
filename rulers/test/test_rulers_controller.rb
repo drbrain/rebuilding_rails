@@ -5,7 +5,9 @@ class TestRulersController < Minitest::Test
     @app = Rulers.new root: FIXTURES
     Rulers.app = @app
 
-    @env  = { "PATH_INFO" => "/testrulers/action" }
+    @env  = {
+      "PATH_INFO" => "/testrulers/action"
+    }
     @cont = RulerstestController.new @env
   end
 
@@ -26,10 +28,16 @@ class TestRulersController < Minitest::Test
   end
 
   def test_render
+    @cont.instance_variable_set :@ivar, "ivar"
+
     rendered = @cont.render "hello", var: "value"
 
     expected = <<-EXPECTED
 var value: "value"
+@ivar value: "ivar"
+controller_name value: "#{@cont.controller_name}"
+controller_start value: "#{@cont.instance_variable_get :@controller_start}"
+env["PATH_INFO"] value: "#{@env["PATH_INFO"]}"
     EXPECTED
 
     assert_equal expected, rendered
