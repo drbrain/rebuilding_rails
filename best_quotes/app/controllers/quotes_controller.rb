@@ -5,12 +5,6 @@ class QuotesController < Rulers::Controller
     quote = fortune.read
     fortune.close
 
-    <<-HTML
-<!DOCTYPE html>
-
-<title>Random quote</title>
-
-<blockquote><p>#{quote}</blockquote>
-    HTML
+    render :a_quote, quote: quote
   end
 end

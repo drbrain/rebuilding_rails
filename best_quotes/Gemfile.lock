@@ -1,12 +1,14 @@
 PATH
   remote: ../rulers
   specs:
-    rulers (1.0.20200505152502)
+    rulers (1.0.20200609182203)
+      erubis (~> 2.7)
       rack (~> 2.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
+    erubis (2.7.0)
     rack (2.2.2)
 
 PLATFORMS
