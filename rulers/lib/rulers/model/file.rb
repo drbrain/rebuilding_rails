@@ -8,11 +8,26 @@ require "json"
 class Rulers::Model::File
 
   ##
+  # Return all records for this model
+
+  def self.all
+    entries = dir.glob "*.json"
+    entries.map { |f| new f }
+  end
+
+  ##
+  # Directory where data for this model is stored
+
+  def self.dir
+    Rulers.app.root.join "db", "quotes"
+  end
+
+  ##
   # Look up entry +id+ in the quotes database.  Return +nil+ if the file does
   # not exist or there is some other problem.
 
   def self.find id
-    file = Rulers.app.root.join "db", "quotes", "#{id}.json"
+    file = dir.join "#{id}.json"
 
     new file
   rescue
