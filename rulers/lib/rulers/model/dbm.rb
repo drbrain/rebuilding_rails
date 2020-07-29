@@ -5,14 +5,18 @@ require "json"
 # DBM-based model using JSON storage
 
 class Rulers::Model::DBM
+  using Rulers::Refinements::By
+
   @dbm = nil
 
   ##
   # Retrieve all records from the DB.
 
   def self.all
+    return enum_for __method__ unless block_given?
+
     dbm.each_key.map { |id|
-      find id
+      yield find id
     }
   end
 
@@ -37,6 +41,29 @@ class Rulers::Model::DBM
 
     new id
   end
+
+  def self.method_missing name, value, *_args, **_kw, &_block
+    super unless respond_to? name
+
+    /^all_by_(?<field>.*+)$/ =~ name
+
+    all.by field, value
+  end
+
+  def self.respond_to_missing? name, include_all
+    return true if name.to_s.start_with? "all_by_"
+
+    super
+  end
+
+  ##
+  # Close the DBM handle
+
+  def self.reset
+    @dbm = nil
+  end
+
+  attr_reader :id
 
   ##
   # Load or create a record from the database.
@@ -92,7 +119,9 @@ class Rulers::Model::DBM
   def new_id
     dbm = self.class.dbm
 
-    id = dbm.keys.map { |k| k.to_i }.max + 1
+    max = dbm.keys.map { |k| k.to_i }.max || 0
+    id = max + 1
+
     dbm[id.to_s] ||= ""
 
     id.to_s
