@@ -9,22 +9,29 @@ class QuotesController < Rulers::Controller
   end
 
   def index
-    @quotes = File.all
+    @quotes = DBM.all
 
     render :index
   end
 
   def new_quote
-    @quote =
-      File.create quote: "A riot is the language of the unheard.",
-                  attribution: "Martin Luther King, Jr.",
-                  submitter: "Someone"
+    @quote = DBM.new
+
+    attributes = {
+      "quote" => "A riot is the language of the unheard.",
+      "attribution" => "Martin Luther King, Jr.",
+      "submitter" => "Someone",
+    }
+
+    @quote.update_attributes attributes
+
+    @quote.save
 
     render :quote
   end
 
   def quote_1
-    @quote = File.find 1
+    @quote = DBM.find 1
 
     render :quote
   end
