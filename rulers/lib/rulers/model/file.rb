@@ -16,6 +16,34 @@ class Rulers::Model::File
   end
 
   ##
+  # Create a new record from the parameters
+
+  def self.create quote:, attribution:, submitter:
+    all = dir.glob "*.json"
+
+    max_record = all.map do |f|
+      name = f.basename ".json"
+      Integer name.to_s
+    rescue
+      next
+    end.compact.max
+
+    new_id = max_record + 1
+
+    new = dir.join "#{new_id}.json"
+
+    data = {
+      "quote"       => quote,
+      "attribution" => attribution,
+      "submitter"   => submitter,
+    }
+
+    new.write JSON.pretty_generate data
+
+    find new_id
+  end
+
+  ##
   # Directory where data for this model is stored
 
   def self.dir
