@@ -8,6 +8,12 @@ class QuotesController < Rulers::Controller
     render :a_quote, quote: quote
   end
 
+  def index
+    @quotes = File.all
+
+    render :index
+  end
+
   def quote_1
     @quote = File.find 1
 
