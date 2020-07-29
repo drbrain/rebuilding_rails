@@ -4,6 +4,8 @@ require "erubis"
 # A controller handles some grouping of application functionality.
 
 class Rulers::Controller
+  include Rulers::Model
+
   using Rulers::Refinements::ClassToFile
 
   attr_reader :env
