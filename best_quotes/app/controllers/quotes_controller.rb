@@ -14,6 +14,15 @@ class QuotesController < Rulers::Controller
     render :index
   end
 
+  def new_quote
+    @quote =
+      File.create quote: "A riot is the language of the unheard.",
+                  attribution: "Martin Luther King, Jr.",
+                  submitter: "Someone"
+
+    render :quote
+  end
+
   def quote_1
     @quote = File.find 1
 
